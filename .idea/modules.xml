@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/implementation.iml" filepath="$PROJECT_DIR$/implementation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DHBW_MSA.iml" filepath="$PROJECT_DIR$/DHBW_MSA.iml" />
     </modules>
   </component>
 </project>
