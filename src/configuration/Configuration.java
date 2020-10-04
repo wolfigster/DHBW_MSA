@@ -16,4 +16,7 @@ public enum Configuration {
 
     // component
     public String componentDirectory = userDirectory + fileSeparator + "component";
+
+    //logger
+    public String logDirectory = userDirectory + fileSeparator + "log" + fileSeparator;
 }
