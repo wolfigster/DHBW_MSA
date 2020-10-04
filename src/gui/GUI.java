@@ -12,9 +12,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logger.AlgorithmType;
+import logger.Logger;
+import logger.MethodType;
 
 public class GUI extends Application {
 
+    private Logger logger = new Logger(MethodType.ENCRYPT, AlgorithmType.RSA);
     private TextArea commandLineArea;
     private TextArea outputArea;
 
@@ -76,6 +80,7 @@ public class GUI extends Application {
             case F8:
                 // Print newest Logs in OutputArea of GUI
                 System.out.println("Print newest Logs in OutputArea of GUI");
+                outputArea.setText(logger.getLastLogContent());
                 break;
         }
     }
