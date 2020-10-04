@@ -7,11 +7,17 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
+
+    private TextArea commandLineArea;
+    private TextArea outputArea;
+
     public void start(Stage primaryStage) {
         primaryStage.setTitle("MSA | Mosbach Security Agency");
 
@@ -38,10 +44,10 @@ public class GUI extends Application {
             }
         });
 
-        TextArea commandLineArea = new TextArea();
+        commandLineArea = new TextArea();
         commandLineArea.setWrapText(true);
 
-        TextArea outputArea = new TextArea();
+        outputArea = new TextArea();
         outputArea.setWrapText(true);
         outputArea.setEditable(false);
 
@@ -52,7 +58,25 @@ public class GUI extends Application {
         vbox.getChildren().addAll(hBox, commandLineArea, outputArea);
 
         Scene scene = new Scene(vbox, 950, 500);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (keyEvent -> keyPressed(keyEvent.getCode())));
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void keyPressed(KeyCode keyCode) {
+        switch (keyCode) {
+            case F3:
+                // De-/Activate Debug-Mode
+                System.out.println("De-/Activate Debug-Mode");
+                break;
+            case F5:
+                // Execute command from InputArea of GUI
+                System.out.println("Execute command from InputArea of GUI");
+                break;
+            case F8:
+                // Print newest Logs in OutputArea of GUI
+                System.out.println("Print newest Logs in OutputArea of GUI");
+                break;
+        }
     }
 }
