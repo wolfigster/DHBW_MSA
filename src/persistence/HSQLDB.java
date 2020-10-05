@@ -21,7 +21,7 @@ public enum HSQLDB {
         }
     }
 
-    private synchronized void update(String sqlStatement) {
+    public synchronized void update(String sqlStatement) {
         try {
             Statement statement = connection.createStatement();
             int result = statement.executeUpdate(sqlStatement);
@@ -36,7 +36,19 @@ public enum HSQLDB {
         }
     }
 
-    private int getNextID(String table) {
+    public synchronized ResultSet query(String sqlStatement) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sqlStatement);
+            statement.close();
+            return result;
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
+    }
+
+    public int getNextID(String table) {
         int nextID = 0;
 
         try {
@@ -54,6 +66,7 @@ public enum HSQLDB {
         return nextID;
     }
 
+    /*
     public void dropTableTypes() {
         System.out.println("--- dropTableTypes");
 
@@ -141,6 +154,7 @@ public enum HSQLDB {
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
         update(sqlStringBuilder.toString());
     }
+     */
 
     public void shutdown() {
         System.out.println("--- shutdown");
