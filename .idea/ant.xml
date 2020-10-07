@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AntConfiguration">
+    <buildFile url="file://$PROJECT_DIR$/component/rsa/build_rsa.xml" />
+    <buildFile url="file://$PROJECT_DIR$/component/rsa_cracker/build_rsa_cracker.xml" />
+    <buildFile url="file://$PROJECT_DIR$/component/shift/build_shift.xml" />
+    <buildFile url="file://$PROJECT_DIR$/component/shift_cracker/build_shift_cracker.xml" />
+  </component>
+</project>
