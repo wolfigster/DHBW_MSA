@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +34,6 @@ public class CrackerRSA {
         getKeyFromFile(keyFile);
         byte[] bytes = Base64.getDecoder().decode(cipher);
         this.cipher = new BigInteger(bytes);
-        System.out.println("crackRSA - bytes " + bytes + " - " + Arrays.toString(bytes));
-        System.out.println("crackRSA - BigInteger " + this.cipher);
 
         try {
             BigInteger text = execute();

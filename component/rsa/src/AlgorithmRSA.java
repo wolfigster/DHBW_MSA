@@ -72,8 +72,6 @@ public class AlgorithmRSA {
 
     public String decryptIRSA(byte[] cipher, Key key) {
         byte[] msg = crypt(new BigInteger(cipher), key).toByteArray();
-        System.out.println("decryptIRSA - bytes " + cipher + " - " + Arrays.toString(cipher));
-        System.out.println("decryptIRSA - BigInteger " + new BigInteger(cipher));
         return new String(msg);
     }
 }
