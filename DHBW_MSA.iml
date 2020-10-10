@@ -6,6 +6,14 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/component/shift/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/component/shift_cracker/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/component/rsa_cracker/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/component/rsa/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/component/rsa/build" />
+      <excludeFolder url="file://$MODULE_DIR$/component/rsa_cracker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/component/shift/build" />
+      <excludeFolder url="file://$MODULE_DIR$/component/shift_cracker/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
