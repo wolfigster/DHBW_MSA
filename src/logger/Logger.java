@@ -100,7 +100,7 @@ public class Logger implements ILogger {
         return fileContent.toString();
     }
 
-    public void close() {
+    private void close() {
         try {
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -110,10 +110,12 @@ public class Logger implements ILogger {
         }
     }
 
-    public void setLogFileType(AlgorithmType algorithmType) {
+    public void setLogFileType(AlgorithmType algorithmType, boolean error) {
         try {
             close();
-            File tempFile = new File(logFile.getName().replace("none", algorithmType.getType()));
+            File tempFile;
+            if(!error) tempFile = new File(logFile.getName().replace("none", algorithmType.getType()));
+            else tempFile = new File("error_" + logFile.getName().replace("none", algorithmType.getType()));
             Files.move(logFile.toPath(), logFile.toPath().resolveSibling(tempFile.toPath()));
             logFile = tempFile;
         } catch (IOException e) {
