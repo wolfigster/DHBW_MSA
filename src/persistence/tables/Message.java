@@ -44,7 +44,7 @@ public class Message {
         StringBuilder sqlStringBuilder04 = new StringBuilder();
         sqlStringBuilder04.append("ALTER TABLE messages ADD CONSTRAINT messages_algorithm_id ")
                 .append("FOREIGN KEY (algorithm_id) ")
-                .append("REFERENCES algorithm (id) ")
+                .append("REFERENCES algorithms (id) ")
                 .append("ON DELETE CASCADE");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder04.toString());
 

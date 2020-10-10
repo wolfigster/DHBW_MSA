@@ -57,7 +57,7 @@ public class Participant {
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
 
-    public static void deleteMessage(int id) {
+    public static void deleteParticipant(int id) {
         System.out.println("--- delete Participant from Participants Table ---");
 
         StringBuilder sqlStringBuilder = new StringBuilder();
