@@ -1,8 +1,9 @@
 package gui;
 
+import command.CommandControl;
+import command.ICommand;
+import configuration.Configuration;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +19,8 @@ import logger.MethodType;
 
 public class GUI extends Application {
 
-    private Logger logger = new Logger(MethodType.ENCRYPT, AlgorithmType.RSA);
+    private final Logger logger = new Logger(MethodType.NONE, AlgorithmType.NONE);
+    private final CommandControl commandControl = new CommandControl();
     private TextArea commandLineArea;
     private TextArea outputArea;
 
@@ -36,17 +38,9 @@ public class GUI extends Application {
         Button closeButton = new Button("Close");
         closeButton.setPrefSize(100, 20);
 
-        executeButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                System.out.println("--- execute ---");
-            }
-        });
+        executeButton.setOnAction(event -> System.out.println("--- execute ---"));
 
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
+        closeButton.setOnAction(actionEvent -> System.exit(0));
 
         commandLineArea = new TextArea();
         commandLineArea.setWrapText(true);
@@ -72,10 +66,19 @@ public class GUI extends Application {
             case F3:
                 // De-/Activate Debug-Mode
                 System.out.println("De-/Activate Debug-Mode");
+                Configuration.instance.debug = !Configuration.instance.debug;
+                outputArea.setText(Configuration.instance.debug ? "Activated Debug-Mode" : "Deactivated Debug-Mode");
                 break;
             case F5:
                 // Execute command from InputArea of GUI
                 System.out.println("Execute command from InputArea of GUI");
+                ICommand command = commandControl.matchCommand(commandLineArea.getText(), outputArea);
+                if(command != null) {
+                    commandControl.executeCommand();
+                } else {
+                    outputArea.setText("No suitable command was found for the following entry:");
+                    outputArea.appendText("\n" + commandLineArea.getText());
+                }
                 break;
             case F8:
                 // Print newest Logs in OutputArea of GUI
