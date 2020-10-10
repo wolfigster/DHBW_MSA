@@ -38,7 +38,7 @@ public class GUI extends Application {
         Button closeButton = new Button("Close");
         closeButton.setPrefSize(100, 20);
 
-        executeButton.setOnAction(event -> System.out.println("--- execute ---"));
+        executeButton.setOnAction(event -> keyPressed(KeyCode.F5));
 
         closeButton.setOnAction(actionEvent -> System.exit(0));
 
