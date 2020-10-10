@@ -2,6 +2,10 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Algorithm {
 
     public static void createTable() {
@@ -57,5 +61,37 @@ public class Algorithm {
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static String getAlgorithmById(int id) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT name ")
+                    .append("FROM algorithms ")
+                    .append("WHERE id = ").append(id);
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while(resultSet.next() && resultSet != null) return resultSet.getString("name");
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
+    }
+
+    public static String[] getAlgorithms() {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT name ")
+                    .append("FROM algorithms");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            ArrayList<String> algorithms = new ArrayList<>();
+            while(resultSet.next() && resultSet != null) {
+                algorithms.add(resultSet.getString("name"));
+            }
+            String[] arr = new String[algorithms.size()];
+            return algorithms.toArray(arr);
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
     }
 }
