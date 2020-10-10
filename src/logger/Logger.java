@@ -2,28 +2,36 @@ package logger;
 
 import configuration.Configuration;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Logger implements ILogger {
-    private final File logFile;
+    private File logFile;
+    private FileWriter fileWriter;
+    private BufferedWriter bufferedWriter;
 
     public Logger(MethodType methodType, AlgorithmType algorithmType) {
-        String fileName = Configuration.instance.logDirectory +
-                methodType.getType() +
-                "_" +
-                algorithmType.getType() +
-                "_" +
-                System.currentTimeMillis() / 1000L +
-                ".txt";
-        logFile = new File(fileName);
-
+        if(!methodType.getType().equals("none")) {
+            String fileName = Configuration.instance.logDirectory +
+                    methodType.getType() +
+                    "_" +
+                    algorithmType.getType() +
+                    "_" +
+                    System.currentTimeMillis() / 1000L +
+                    ".txt";
+            logFile = new File(fileName);
+            try {
+                fileWriter = new FileWriter(logFile, true);
+                bufferedWriter = new BufferedWriter(fileWriter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -36,14 +44,22 @@ public class Logger implements ILogger {
             }
         }
         try {
-            FileWriter fileWriter = new FileWriter(logFile);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.println(message);
-            printWriter.close();
-            fileWriter.close();
+            bufferedWriter.write(new SimpleDateFormat("dd.MM HH:mm:ss.SSS").format(new Date(System.currentTimeMillis())) + " | " + message);
+            bufferedWriter.newLine();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void info(String message) {
+        log(Level.INFO.getName() + " | " + message);
+    }
+
+    @Override
+    public void error(String message) {
+        log(Level.ERROR.getName() + " | " + message);
     }
 
     public String getLastLogContent() {
@@ -82,6 +98,27 @@ public class Logger implements ILogger {
             e.printStackTrace();
         }
         return fileContent.toString();
+    }
+
+    public void close() {
+        try {
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setLogFileType(AlgorithmType algorithmType) {
+        try {
+            close();
+            File tempFile = new File(logFile.getName().replace("none", algorithmType.getType()));
+            Files.move(logFile.toPath(), logFile.toPath().resolveSibling(tempFile.toPath()));
+            logFile = tempFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
