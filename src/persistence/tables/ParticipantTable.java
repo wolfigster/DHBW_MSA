@@ -2,7 +2,7 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
-public class Participant {
+public class ParticipantTable {
 
     public static void createTable() {
         System.out.println("--- create Participants Table ---");

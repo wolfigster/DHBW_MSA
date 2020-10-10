@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Algorithm {
+public class AlgorithmTable {
 
     public static void createTable() {
         System.out.println("--- create Algorithms Table ---");

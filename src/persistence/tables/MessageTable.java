@@ -2,7 +2,7 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
-public class Message {
+public class MessageTable {
 
     public static void createTable() {
         System.out.println("--- create Messages Table ---");

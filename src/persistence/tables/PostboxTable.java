@@ -2,7 +2,7 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
-public class Postbox {
+public class PostboxTable {
 
     public static void createTable(String participantName) {
         System.out.println("--- create Postbox Table for: " + participantName + " ---");
