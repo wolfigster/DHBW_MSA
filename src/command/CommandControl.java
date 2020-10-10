@@ -2,15 +2,29 @@ package command;
 
 import javafx.scene.control.TextArea;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CommandControl {
 
     private ICommand currentCommand;
     private TextArea outputArea;
 
+    private final Pattern encryptMessagePattern = Pattern.compile("encrypt message \"(.*)\" using (.*) and keyfile (.*)");
+    private final Pattern decryptMessagePattern = Pattern.compile("decrypt message \"(.*)\" using (.*) and keyfile (.*)");
+
     public ICommand matchCommand(String command, TextArea outputArea) {
         this.outputArea = outputArea;
 
         if(command.matches("show algorithm")) currentCommand = new ShowAlgorithmCmd();
+        else if(command.matches(encryptMessagePattern.pattern())) {
+            Matcher matcher = encryptMessagePattern.matcher(command);
+            while(matcher.find()) currentCommand = new EncryptMessageCmd(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+        else if(command.matches(decryptMessagePattern.pattern())) {
+            Matcher matcher = decryptMessagePattern.matcher(command);
+            while(matcher.find()) currentCommand = new DecryptMessageCmd(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
         else {
             return currentCommand = null;
         }
