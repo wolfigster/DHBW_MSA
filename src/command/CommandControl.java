@@ -9,6 +9,11 @@ public class CommandControl {
 
     public ICommand matchCommand(String command, TextArea outputArea) {
         this.outputArea = outputArea;
+
+        if(command.matches("show algorithm")) currentCommand = new ShowAlgorithmCmd();
+        else {
+            return currentCommand = null;
+        }
         return currentCommand;
     }
 
