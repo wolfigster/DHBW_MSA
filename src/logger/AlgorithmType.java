@@ -25,7 +25,7 @@ public enum AlgorithmType {
 
     public static AlgorithmType getAlgorithm(String name) {
         for(AlgorithmType algorithmType : values()) {
-            if(algorithmType.getName().toLowerCase().equals(name)) return algorithmType;
+            if(algorithmType.getName().toLowerCase().equals(name.toLowerCase())) return algorithmType;
         }
         return null;
     }

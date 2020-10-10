@@ -16,7 +16,7 @@ public class Logger implements ILogger {
     private BufferedWriter bufferedWriter;
 
     public Logger(MethodType methodType, AlgorithmType algorithmType) {
-        if(!methodType.getType().equals("none")) {
+        if(!methodType.getType().equals("none") && Configuration.instance.debug) {
             String fileName = Configuration.instance.logDirectory +
                     methodType.getType() +
                     "_" +
@@ -36,19 +36,21 @@ public class Logger implements ILogger {
 
     @Override
     public void log(String message) {
-        if(!logFile.exists()) {
+        if(Configuration.instance.debug) {
+            if (!logFile.exists()) {
+                try {
+                    logFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                logFile.createNewFile();
+                bufferedWriter.write(new SimpleDateFormat("dd.MM HH:mm:ss.SSS").format(new Date(System.currentTimeMillis())) + " | " + message);
+                bufferedWriter.newLine();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        try {
-            bufferedWriter.write(new SimpleDateFormat("dd.MM HH:mm:ss.SSS").format(new Date(System.currentTimeMillis())) + " | " + message);
-            bufferedWriter.newLine();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -111,15 +113,17 @@ public class Logger implements ILogger {
     }
 
     public void setLogFileType(AlgorithmType algorithmType, boolean error) {
-        try {
-            close();
-            File tempFile;
-            if(!error) tempFile = new File(logFile.getName().replace("none", algorithmType.getType()));
-            else tempFile = new File("error_" + logFile.getName().replace("none", algorithmType.getType()));
-            Files.move(logFile.toPath(), logFile.toPath().resolveSibling(tempFile.toPath()));
-            logFile = tempFile;
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(Configuration.instance.debug) {
+            try {
+                close();
+                File tempFile;
+                if (!error) tempFile = new File(logFile.getName().replace("none", algorithmType.getType()));
+                else tempFile = new File("error_" + logFile.getName().replace("none", algorithmType.getType()));
+                Files.move(logFile.toPath(), logFile.toPath().resolveSibling(tempFile.toPath()));
+                logFile = tempFile;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
