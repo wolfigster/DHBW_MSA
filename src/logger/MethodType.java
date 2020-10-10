@@ -3,7 +3,8 @@ package logger;
 public enum MethodType {
     NONE("none"),
     ENCRYPT("encrypt"),
-    DECRYPT("decrypt")
+    DECRYPT("decrypt"),
+    CRACK("crack")
     ;
 
     private final String type;

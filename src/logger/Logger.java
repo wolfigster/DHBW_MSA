@@ -6,7 +6,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -127,4 +127,49 @@ public class Logger implements ILogger {
         }
     }
 
+
+    public File getKeyFile(String encryptedMessage) {
+        File[] logFiles = new File(Configuration.instance.logDirectory).listFiles();
+        File _keyfile = null;
+
+        if (logFiles != null) {
+            for(File file : logFiles) {
+                try {
+                    for(String line : Files.readAllLines(file.toPath(), StandardCharsets.UTF_8)) {
+                        if(line.matches(".* Found keyfile: \".*\"")) _keyfile = new File(Configuration.instance.keyfileDirectory + line.split("\"")[1]);
+                        if(line.matches(".* encrypted to \"" + encryptedMessage + "\"")) {
+                            return _keyfile;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public File getRandomRSAKeyFile() {
+        File[] logFiles = new File(Configuration.instance.keyfileDirectory).listFiles();
+        boolean n = false, e = false, d = false;
+
+        if (logFiles != null) {
+            List<File> fileList = Arrays.asList(logFiles);
+            Collections.shuffle(fileList);
+            fileList.toArray(logFiles);
+            for(File file : logFiles) {
+                try {
+                    for(String line : Files.readAllLines(file.toPath(), StandardCharsets.UTF_8)) {
+                        if(line.contains("\"n\":")) n = true;
+                        if(line.contains("\"e\":")) e = true;
+                        if(line.contains("\"d\":")) d = true;
+                    }
+                    if(n && e && d) return file;
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

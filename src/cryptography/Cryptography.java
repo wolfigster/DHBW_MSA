@@ -16,7 +16,7 @@ public class Cryptography {
     public String decrypt(String message, AlgorithmType algorithmType, File keyfile) {
         String response = null;
 
-        createMethod(algorithmType, "decrypt");
+        createMethod(algorithmType, "decrypt", false);
         response = crypt(message, keyfile);
 
         return response;
@@ -25,21 +25,34 @@ public class Cryptography {
     public String encrypt(String message, AlgorithmType algorithmType, File keyfile) {
         String response = null;
 
-        createMethod(algorithmType, "encrypt");
+        createMethod(algorithmType, "encrypt", false);
         response = crypt(message, keyfile);
 
         return response;
     }
 
-    private void createMethod(AlgorithmType algorithmType, String method) {
+    public String crack(String message, AlgorithmType algorithmType, File keyfile) {
+        String response = null;
+
+        createMethod(algorithmType, "crack", true);
+        response = crypt(message, keyfile);
+
+        return response;
+    }
+
+    private void createMethod(AlgorithmType algorithmType, String method, boolean cracker) {
         // LHC
         Object instance;
+
+        String crackerString = cracker ? "_cracker" : "";
+        String algorithmString = cracker ? "Cracker" : "Algorithm";
+
         try {
             URL[] urls = {
-                    new File(Configuration.instance.componentDirectory + algorithmType.getType() + File.separator + "jar" + File.separator + algorithmType.getType() + ".jar").toURI().toURL()
+                    new File(Configuration.instance.componentDirectory + algorithmType.getType() + crackerString + File.separator + "jar" + File.separator + algorithmType.getType() + crackerString + ".jar").toURI().toURL()
             };
             URLClassLoader urlClassLoader = new URLClassLoader(urls, Cryptography.class.getClassLoader());
-            Class clazz = Class.forName("Algorithm" + algorithmType.getName(), true, urlClassLoader);
+            Class clazz = Class.forName(algorithmString + algorithmType.getName(), true, urlClassLoader);
 
             instance = clazz.getMethod("getInstance").invoke(null);
             this.port = clazz.getDeclaredField("port").get(instance);
