@@ -2,7 +2,7 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
-public class Type {
+public class TypeTable {
 
     public static void createTable() {
         System.out.println("--- create Types Table");

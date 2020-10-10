@@ -2,7 +2,7 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
-public class Channel {
+public class ChannelTable {
 
     public static void createTable() {
         System.out.println("--- create Channels Table ---");
