@@ -14,8 +14,11 @@ public class CommandControl {
     private final Pattern decryptMessagePattern = Pattern.compile("decrypt message \"(.*)\" using (.*) and keyfile (.*)");
     private final Pattern crackMessagePattern = Pattern.compile("crack encrypted message \"(.*)\" using (.*)");
 
-    public ICommand matchCommand(String command, TextArea outputArea) {
+    public CommandControl(TextArea outputArea) {
         this.outputArea = outputArea;
+    }
+
+    public ICommand matchCommand(String command) {
 
         if(command.matches("show algorithm")) currentCommand = new ShowAlgorithmCmd();
         else if(command.matches(encryptMessagePattern.pattern())) {

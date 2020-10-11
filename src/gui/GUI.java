@@ -20,7 +20,7 @@ import logger.MethodType;
 public class GUI extends Application {
 
     private final Logger logger = new Logger(MethodType.NONE, AlgorithmType.NONE);
-    private final CommandControl commandControl = new CommandControl();
+    private CommandControl commandControl;
     private TextArea commandLineArea;
     private TextArea outputArea;
 
@@ -59,6 +59,7 @@ public class GUI extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (keyEvent -> keyPressed(keyEvent.getCode())));
         primaryStage.setScene(scene);
         primaryStage.show();
+        commandControl = new CommandControl(outputArea);
     }
 
     private void keyPressed(KeyCode keyCode) {
@@ -72,7 +73,7 @@ public class GUI extends Application {
             case F5:
                 // Execute command from InputArea of GUI
                 System.out.println("Execute command from InputArea of GUI");
-                ICommand command = commandControl.matchCommand(commandLineArea.getText(), outputArea);
+                ICommand command = commandControl.matchCommand(commandLineArea.getText());
                 if(command != null) {
                     commandControl.executeCommand();
                 } else {
