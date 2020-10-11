@@ -1,6 +1,10 @@
 package persistence.tables;
 
+import network.ParticipantType;
 import persistence.HSQLDB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TypeTable {
 
@@ -57,5 +61,33 @@ public class TypeTable {
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static ParticipantType getTypeIdByName(String name) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT id ")
+                    .append("FROM types ")
+                    .append("WHERE name = '").append(name).append("'");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while(resultSet.next() && resultSet != null) return ParticipantType.getParticipantTypeById(resultSet.getInt("id"));
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
+    }
+
+    public static ParticipantType getTypeNameById(int id) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT name ")
+                    .append("FROM types ")
+                    .append("WHERE id = ").append(id);
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while(resultSet.next() && resultSet != null) return ParticipantType.getParticipantTypeByName(resultSet.getString("name"));
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
     }
 }

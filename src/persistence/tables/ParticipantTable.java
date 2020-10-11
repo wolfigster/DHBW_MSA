@@ -1,6 +1,12 @@
 package persistence.tables;
 
+import network.Participant;
+import network.ParticipantType;
 import persistence.HSQLDB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ParticipantTable {
 
@@ -44,14 +50,13 @@ public class ParticipantTable {
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
 
-    public static void insertParticipant(String name, int typeID) {
+    public static void insertParticipant(Participant participant) {
         System.out.println("--- insert Participant in Participants Table ---");
 
-        int nextID = HSQLDB.instance.getNextID("participants") + 1;
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("INSERT INTO participants (").append("id").append(",").append("name").append(",").append("type_id").append(")")
                 .append(" VALUES ")
-                .append("(").append(nextID).append(",").append("'").append(name).append("'").append(",").append(typeID).append(")");
+                .append("(").append(participant.getId()).append(",").append("'").append(participant.getName()).append("'").append(",").append(participant.getType().getId()).append(")");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
@@ -67,5 +72,59 @@ public class ParticipantTable {
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static ArrayList<Participant> getParticipants() {
+        ArrayList<Participant> participants = new ArrayList<>();
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM participants ");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                participants.add(createParticipant(resultSet));
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return participants;
+    }
+
+    public static Participant getParticipantByName(String name) {
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder.append("SELECT * ")
+                .append("FROM participants ")
+                .append("WHERE name = '").append(name).append("'");
+        ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+        try {
+            if(resultSet.next()) return createParticipant(resultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Participant getParticipantById(int id) {
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder.append("SELECT * ")
+                .append("FROM participants ")
+                .append("WHERE id = ").append(id);
+        ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+        try {
+            if(resultSet.next()) return createParticipant(resultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Participant createParticipant(ResultSet resultSet) {
+        try {
+            ParticipantType type = ParticipantType.getParticipantTypeById(resultSet.getInt("type_id"));
+            return new Participant(resultSet.getInt("id"), resultSet.getString("name"), type);
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
     }
 }
