@@ -16,16 +16,18 @@ import javafx.stage.Stage;
 import logger.AlgorithmType;
 import logger.Logger;
 import logger.MethodType;
+import persistence.HSQLDB;
 
 public class GUI extends Application {
 
     private final Logger logger = new Logger(MethodType.NONE, AlgorithmType.NONE);
-    private final CommandControl commandControl = new CommandControl();
+    private CommandControl commandControl;
     private TextArea commandLineArea;
     private TextArea outputArea;
 
     public void start(Stage primaryStage) {
         primaryStage.setTitle("MSA | Mosbach Security Agency");
+        HSQLDB.instance.setupConnection();
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(15, 12, 15, 12));
@@ -40,7 +42,10 @@ public class GUI extends Application {
 
         executeButton.setOnAction(event -> keyPressed(KeyCode.F5));
 
-        closeButton.setOnAction(actionEvent -> System.exit(0));
+        closeButton.setOnAction(actionEvent -> {
+            HSQLDB.instance.shutdown();
+            System.exit(0);
+        });
 
         commandLineArea = new TextArea();
         commandLineArea.setWrapText(true);
@@ -59,6 +64,7 @@ public class GUI extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (keyEvent -> keyPressed(keyEvent.getCode())));
         primaryStage.setScene(scene);
         primaryStage.show();
+        commandControl = new CommandControl(outputArea);
     }
 
     private void keyPressed(KeyCode keyCode) {
@@ -72,7 +78,7 @@ public class GUI extends Application {
             case F5:
                 // Execute command from InputArea of GUI
                 System.out.println("Execute command from InputArea of GUI");
-                ICommand command = commandControl.matchCommand(commandLineArea.getText(), outputArea);
+                ICommand command = commandControl.matchCommand(commandLineArea.getText());
                 if(command != null) {
                     commandControl.executeCommand();
                 } else {

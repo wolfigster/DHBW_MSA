@@ -1,6 +1,12 @@
 package persistence.tables;
 
+import network.Channel;
+import network.Participant;
 import persistence.HSQLDB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ChannelTable {
 
@@ -47,7 +53,11 @@ public class ChannelTable {
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
 
-    public static void insertChannel(String name, String participant_01, String participant_02) {
+    public static void insertChannel(Channel channel) {
+        insertChannel(channel.getName(), channel.getParticipant01().getId(), channel.getParticipant02().getId());
+    }
+
+    public static void insertChannel(String name, int participant_01, int participant_02) {
         System.out.println("--- insert Channel in Channel Table ---");
 
         StringBuilder sqlStringBuilder = new StringBuilder();
@@ -65,9 +75,70 @@ public class ChannelTable {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DELETE ")
                 .append("FROM channel ")
-                .append("WHERE id = ").append(name);
+                .append("WHERE name = ").append(name);
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static ArrayList<Channel> getChannels() {
+        ArrayList<Channel> channels = new ArrayList<>();
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM channel");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                channels.add(createChannel(resultSet));
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return channels;
+    }
+
+    public static String getChannelByParticipantsName(String participant_01, String participant_02) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT name ")
+                    .append("FROM channel ")
+                    .append("WHERE participant_01 = ").append(participant_01).append(" ")
+                    .append("AND participant_02 = ").append(participant_02);
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while(resultSet.next() && resultSet != null) return resultSet.getString("name");
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
+    }
+
+    public static ArrayList<Participant> getParticipantsByChannelName(String name) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT participant_01, participant_02 ")
+                    .append("FROM channel ")
+                    .append("WHERE name = '").append(name).append("'");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            ArrayList<Participant> participants = new ArrayList<>();
+            while(resultSet.next() && resultSet != null) {
+                participants.add(ParticipantTable.getParticipantById(resultSet.getInt("participant_01")));
+                participants.add(ParticipantTable.getParticipantById(resultSet.getInt("participant_02")));
+            }
+            if(!participants.isEmpty()) return participants;
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
+    }
+
+    private static Channel createChannel(ResultSet resultSet) {
+        try {
+            Participant participant01 = ParticipantTable.getParticipantById(resultSet.getInt("participant_01"));
+            Participant participant02 = ParticipantTable.getParticipantById(resultSet.getInt("participant_02"));
+            return new Channel(resultSet.getString("name"), participant01, participant02);
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return null;
     }
 }
