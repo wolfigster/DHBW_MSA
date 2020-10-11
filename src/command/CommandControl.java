@@ -14,6 +14,7 @@ public class CommandControl {
     private final Pattern decryptMessagePattern = Pattern.compile("decrypt message \"(.*)\" using (.*) and keyfile (.*)");
     private final Pattern crackMessagePattern = Pattern.compile("crack encrypted message \"(.*)\" using (.*)");
     private final Pattern registerParticipantPattern = Pattern.compile("register participant (.*) with type (.*)");
+    private final Pattern createChannelPattern = Pattern.compile("create channel (.*) from (.*) to (.*)");
 
     public CommandControl(TextArea outputArea) {
         this.outputArea = outputArea;
@@ -37,6 +38,10 @@ public class CommandControl {
         else if(command.matches(registerParticipantPattern.pattern())) {
             Matcher matcher = registerParticipantPattern.matcher(command);
             while(matcher.find()) currentCommand = new RegisterParticipantCmd(matcher.group(1), matcher.group(2));
+        }
+        else if(command.matches(createChannelPattern.pattern())) {
+            Matcher matcher = createChannelPattern.matcher(command);
+            while(matcher.find()) currentCommand = new CreateChannelCmd(matcher.group(1));
         }
         else if(command.matches("show channel")) currentCommand = new ShowChannelCmd();
         else if(command.matches("drop channel .*")) currentCommand = new DropChannelCmd(command.replace("drop channel ", ""));
