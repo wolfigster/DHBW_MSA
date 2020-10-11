@@ -39,6 +39,7 @@ public class CommandControl {
             while(matcher.find()) currentCommand = new RegisterParticipantCmd(matcher.group(1), matcher.group(2));
         }
         else if(command.matches("show channel")) currentCommand = new ShowChannelCmd();
+        else if(command.matches("drop channel .*")) currentCommand = new DropChannelCmd(command.replace("drop channel ", ""));
         else {
             return currentCommand = null;
         }
