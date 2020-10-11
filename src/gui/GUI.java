@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import logger.AlgorithmType;
 import logger.Logger;
 import logger.MethodType;
+import persistence.HSQLDB;
 
 public class GUI extends Application {
 
@@ -26,6 +27,7 @@ public class GUI extends Application {
 
     public void start(Stage primaryStage) {
         primaryStage.setTitle("MSA | Mosbach Security Agency");
+        HSQLDB.instance.setupConnection();
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(15, 12, 15, 12));
@@ -40,7 +42,10 @@ public class GUI extends Application {
 
         executeButton.setOnAction(event -> keyPressed(KeyCode.F5));
 
-        closeButton.setOnAction(actionEvent -> System.exit(0));
+        closeButton.setOnAction(actionEvent -> {
+            HSQLDB.instance.shutdown();
+            System.exit(0);
+        });
 
         commandLineArea = new TextArea();
         commandLineArea.setWrapText(true);
