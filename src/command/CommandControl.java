@@ -38,6 +38,7 @@ public class CommandControl {
             Matcher matcher = registerParticipantPattern.matcher(command);
             while(matcher.find()) currentCommand = new RegisterParticipantCmd(matcher.group(1), matcher.group(2));
         }
+        else if(command.matches("show channel")) currentCommand = new ShowChannelCmd();
         else {
             return currentCommand = null;
         }
