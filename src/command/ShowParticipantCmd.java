@@ -17,7 +17,7 @@ public class ShowParticipantCmd implements ICommand {
 
         response.append("ID | Name | Type");
         for (Participant participant : ParticipantTable.getParticipants()) {
-            response.append("\n").append(participant.getId()).append(" | ").append(participant.getName()).append(" | ").append(participant.getType());
+            response.append("\n").append(participant.getId()).append(" | ").append(participant.getName()).append(" | ").append(participant.getType().getName());
         }
         return response.toString();
     }
