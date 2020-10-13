@@ -1,4 +1,4 @@
-package network;
+package msa;
 
 public enum ParticipantType {
     NORMAL("Normal", "normal", 1),
