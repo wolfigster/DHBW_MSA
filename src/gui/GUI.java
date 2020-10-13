@@ -77,9 +77,9 @@ public class GUI extends Application {
                 break;
             case F5:
                 // Execute command from InputArea of GUI
-                System.out.println("Execute command from InputArea of GUI");
                 ICommand command = commandControl.matchCommand(commandLineArea.getText());
                 if(command != null) {
+                    System.out.println("Execute command from InputArea of GUI");
                     commandControl.executeCommand();
                 } else {
                     outputArea.setText("No suitable command was found for the following entry:");
