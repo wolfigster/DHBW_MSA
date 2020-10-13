@@ -75,7 +75,7 @@ public class ChannelTable {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DELETE ")
                 .append("FROM channel ")
-                .append("WHERE name = ").append(name);
+                .append("WHERE name = '").append(name).append("'");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
