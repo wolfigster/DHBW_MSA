@@ -97,7 +97,7 @@ public class ChannelTable {
         return channels;
     }
 
-    public static String getChannelByParticipantsName(String participant_01, String participant_02) {
+    public static String getChannelByParticipantsName(int participant_01, int participant_02) {
         try {
             StringBuilder sqlStringBuilder = new StringBuilder();
             sqlStringBuilder.append("SELECT name ")
