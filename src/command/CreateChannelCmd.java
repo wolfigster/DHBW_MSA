@@ -7,24 +7,36 @@ import persistence.tables.ParticipantTable;
 
 public class CreateChannelCmd implements ICommand {
 
-    private String channelName;
-    private Participant participant01;
-    private Participant participant02;
-    private Channel channel;
+    private final String channelName;
+    private final String participantName01;
+    private final String participantName02;
 
     public CreateChannelCmd(String channelName, String participantName01, String participantName02) {
         System.out.println("CreateChannelCmd was constructed");
 
         this.channelName = channelName;
-        this.participant01 = ParticipantTable.getParticipantByName(participantName01);
-        this.participant02 = ParticipantTable.getParticipantByName(participantName02);
+        this.participantName01 = participantName01;
+        this.participantName02 = participantName02;
     }
 
     @Override
     public String execute() {
         System.out.println("Run command CreateChannelCmd");
         StringBuilder response = new StringBuilder();
-        // Do something
+
+        Participant participant01 = ParticipantTable.getParticipantByName(participantName01);
+        Participant participant02 = ParticipantTable.getParticipantByName(participantName02);
+        Channel channel;
+
+        if(participant01 == null) {
+            response.append(participantName01).append(" doesn't exist");
+            return response.toString();
+        }
+
+        if(participant02 == null) {
+            response.append(participantName02).append(" doesn't exist");
+            return response.toString();
+        }
 
         if(participant01.getName().equals(participant02.getName())) {
             response.append(participant01.getName()).append(" (").append(participant01.getId()).append(") and ").append(participant02.getName()).append(" (").append(participant02.getId()).append(") are identical - cannot create channel on itself");

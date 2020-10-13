@@ -9,8 +9,8 @@ import persistence.tables.TypeTable;
 
 public class RegisterParticipantCmd implements ICommand {
 
-    private String participantName;
-    private String type;
+    private final String participantName;
+    private final String type;
 
     public RegisterParticipantCmd(String participantName, String type) {
         System.out.println("RegisterParticipantCmd was constructed");
@@ -22,7 +22,6 @@ public class RegisterParticipantCmd implements ICommand {
     public String execute() {
         System.out.println("Run command RegisterParticipantCmd");
         String response = null;
-        // Do something
 
         if(ParticipantTable.getParticipantByName(participantName) == null) {
             // [i]

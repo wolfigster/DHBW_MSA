@@ -15,7 +15,6 @@ public class DropChannelCmd implements ICommand {
     public String execute() {
         System.out.println("Run command DropChannelCmd");
         String response = null;
-        // Do something
 
         if(ChannelTable.getParticipantsByChannelName(name) != null) {
             ChannelTable.deleteChannel(name);

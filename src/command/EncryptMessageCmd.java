@@ -28,8 +28,10 @@ public class EncryptMessageCmd implements ICommand {
         Logger logger = new Logger(MethodType.ENCRYPT, AlgorithmType.NONE);
         AlgorithmType _algorithmType;
         File _keyfile;
+
         logger.info("Run command EncryptMessageCmd");
         logger.info("Start initialization for encryption:");
+
         _algorithmType = AlgorithmType.getAlgorithm(algorithmType);
         if(_algorithmType != null) {
             logger.info("Algorithm successful recognized -> " + _algorithmType.getName());

@@ -29,9 +29,9 @@ public class CrackMessageCmd implements ICommand {
         AlgorithmType _algorithmType;
         File _keyfile = null;
 
-
         logger.info("Run command CrackMessageCmd");
         logger.info("Start initialization for cracking:");
+
         _algorithmType = AlgorithmType.getAlgorithm(algorithmType);
         if(_algorithmType != null) {
             logger.info("Algorithm successful recognized -> " + _algorithmType.getName());
