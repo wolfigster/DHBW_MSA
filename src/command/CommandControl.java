@@ -22,7 +22,8 @@ public class CommandControl {
 
     public ICommand matchCommand(String command) {
 
-        if(command.matches("show algorithm")) currentCommand = new ShowAlgorithmCmd();
+        if(command.matches("show algorithms?")) currentCommand = new ShowAlgorithmCmd();
+        if(command.matches("show participants?")) currentCommand = new ShowParticipantCmd();
         else if(command.matches(encryptMessagePattern.pattern())) {
             Matcher matcher = encryptMessagePattern.matcher(command);
             while(matcher.find()) currentCommand = new EncryptMessageCmd(matcher.group(1), matcher.group(2), matcher.group(3));
@@ -43,7 +44,7 @@ public class CommandControl {
             Matcher matcher = createChannelPattern.matcher(command);
             while(matcher.find()) currentCommand = new CreateChannelCmd(matcher.group(1));
         }
-        else if(command.matches("show channel")) currentCommand = new ShowChannelCmd();
+        else if(command.matches("show channels?")) currentCommand = new ShowChannelCmd();
         else if(command.matches("drop channel .*")) currentCommand = new DropChannelCmd(command.replace("drop channel ", ""));
         else {
             return currentCommand = null;
