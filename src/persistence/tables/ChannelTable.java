@@ -97,6 +97,23 @@ public class ChannelTable {
         return channels;
     }
 
+    public static Channel getChannel(String name) {
+        Channel channel = null;
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM channel ")
+                    .append("WHERE name = '").append(name).append("'");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                channel = createChannel(resultSet);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return channel;
+    }
+
     public static String getChannelNameByParticipants(int participant_01, int participant_02) {
         try {
             StringBuilder sqlStringBuilder = new StringBuilder();
