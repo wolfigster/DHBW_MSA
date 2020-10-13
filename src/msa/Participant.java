@@ -1,4 +1,4 @@
-package network;
+package msa;
 
 public class Participant {
 

@@ -1,7 +1,7 @@
 package persistence.tables;
 
-import network.Channel;
-import network.Participant;
+import msa.Channel;
+import msa.Participant;
 import persistence.HSQLDB;
 
 import java.sql.ResultSet;
@@ -75,7 +75,7 @@ public class ChannelTable {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DELETE ")
                 .append("FROM channel ")
-                .append("WHERE name = ").append(name);
+                .append("WHERE name = '").append(name).append("'");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
@@ -97,7 +97,7 @@ public class ChannelTable {
         return channels;
     }
 
-    public static String getChannelByParticipantsName(String participant_01, String participant_02) {
+    public static String getChannelNameByParticipants(int participant_01, int participant_02) {
         try {
             StringBuilder sqlStringBuilder = new StringBuilder();
             sqlStringBuilder.append("SELECT name ")

@@ -1,4 +1,4 @@
-package network;
+package msa;
 
 import com.google.common.eventbus.EventBus;
 

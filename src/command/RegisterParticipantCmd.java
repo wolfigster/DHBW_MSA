@@ -1,7 +1,7 @@
 package command;
 
-import network.Participant;
-import network.ParticipantType;
+import msa.Participant;
+import msa.ParticipantType;
 import persistence.HSQLDB;
 import persistence.tables.ParticipantTable;
 import persistence.tables.PostboxTable;

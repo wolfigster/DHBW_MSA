@@ -54,13 +54,13 @@ public class PostboxTable {
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
 
-    public static void deleteChannel(String participantName, String name) {
+    public static void deletePostbox(String participantName, int id) {
         System.out.println("--- delete Data from postbox_" + participantName + " Table");
 
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DELETE ")
                 .append("FROM postbox_").append(participantName).append(" ")
-                .append("WHERE id = ").append(name);
+                .append("WHERE id = ").append(id);
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
