@@ -1,6 +1,6 @@
 package persistence.tables;
 
-import network.ParticipantType;
+import msa.ParticipantType;
 import persistence.HSQLDB;
 
 import java.sql.ResultSet;

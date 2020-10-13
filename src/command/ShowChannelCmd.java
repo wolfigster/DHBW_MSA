@@ -1,6 +1,6 @@
 package command;
 
-import network.Channel;
+import msa.Channel;
 import persistence.tables.ChannelTable;
 
 public class ShowChannelCmd implements ICommand {

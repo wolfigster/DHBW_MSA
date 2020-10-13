@@ -1,7 +1,7 @@
 package persistence.tables;
 
-import network.Channel;
-import network.Participant;
+import msa.Channel;
+import msa.Participant;
 import persistence.HSQLDB;
 
 import java.sql.ResultSet;

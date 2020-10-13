@@ -1,6 +1,6 @@
 package command;
 
-import network.Participant;
+import msa.Participant;
 import persistence.tables.ParticipantTable;
 
 public class ShowParticipantCmd implements ICommand {
