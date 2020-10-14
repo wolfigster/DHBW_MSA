@@ -1,5 +1,6 @@
 package persistence.tables;
 
+import logger.AlgorithmType;
 import persistence.HSQLDB;
 
 import java.sql.ResultSet;
@@ -75,6 +76,20 @@ public class AlgorithmTable {
             System.out.println(sqle.getMessage());
         }
         return null;
+    }
+
+    public static int getAlgorithmId(AlgorithmType algorithmType) {
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT id ")
+                    .append("FROM algorithms ")
+                    .append("WHERE name = '").append(algorithmType.getName()).append("'");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while(resultSet.next() && resultSet != null) return resultSet.getInt("id");
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return 0;
     }
 
     public static String[] getAlgorithms() {
