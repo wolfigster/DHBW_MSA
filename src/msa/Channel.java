@@ -14,6 +14,12 @@ public class Channel {
         this.participant01 = participant01;
         this.participant02 = participant02;
         this.eventBus = new EventBus(name);
+        this.eventBus.register(participant01);
+        this.eventBus.register(participant02);
+    }
+
+    public void sendMsg(MsgEvent msgEvent) {
+        eventBus.post(msgEvent);
     }
 
     public String getName() {
