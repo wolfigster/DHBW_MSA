@@ -48,7 +48,7 @@ public class PostboxTable {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("INSERT INTO postbox_").append(participantName).append(" (").append("id").append(",").append("participant_from_id").append(",").append("message").append(",").append("timestamp").append(")")
                 .append(" VALUES ")
-                .append("(").append(nextID).append(",'").append(participantFromId).append("','").append(message).append("',").append(timestamp).append(")");
+                .append("(").append(nextID).append(",").append(participantFromId).append(",'").append(message).append("',").append(timestamp).append(")");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
