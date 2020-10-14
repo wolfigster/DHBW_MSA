@@ -134,11 +134,13 @@ public class Logger implements ILogger {
 
         if (logFiles != null) {
             for(File file : logFiles) {
+                boolean rsa = false;
                 try {
                     for(String line : Files.readAllLines(file.toPath(), StandardCharsets.UTF_8)) {
+                        if(line.matches(".* Algorithm successful recognized -> RSA")) rsa = true;
                         if(line.matches(".* Found keyfile: \".*\"")) _keyfile = new File(Configuration.instance.keyfileDirectory + line.split("\"")[1]);
                         if(line.matches(".* encrypted to \"" + encryptedMessage + "\"")) {
-                            return _keyfile;
+                            if(rsa) return _keyfile;
                         }
                     }
                 } catch (IOException e) {
