@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import logger.AlgorithmType;
 import logger.Logger;
 import logger.MethodType;
+import msa.MSA;
 import persistence.HSQLDB;
 
 public class GUI extends Application {
@@ -23,11 +24,12 @@ public class GUI extends Application {
     private final Logger logger = new Logger(MethodType.NONE, AlgorithmType.NONE);
     private CommandControl commandControl;
     private TextArea commandLineArea;
-    private TextArea outputArea;
+    private static TextArea outputArea;
 
     public void start(Stage primaryStage) {
         primaryStage.setTitle("MSA | Mosbach Security Agency");
         HSQLDB.instance.setupConnection();
+        MSA.initialize();
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(15, 12, 15, 12));
@@ -92,5 +94,14 @@ public class GUI extends Application {
                 outputArea.setText(logger.getLastLogContent());
                 break;
         }
+    }
+
+    public static void addTextToOutputArea(String message) {
+        if(!outputArea.getText().equals("")) message = "\n" + message;
+        outputArea.appendText(message);
+    }
+
+    public static void clearOutputArea() {
+        outputArea.setText("");
     }
 }

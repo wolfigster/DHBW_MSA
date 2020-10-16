@@ -2,6 +2,7 @@ package command;
 
 import configuration.Configuration;
 import cryptography.Cryptography;
+import gui.GUI;
 import logger.AlgorithmType;
 import msa.Channel;
 import msa.MsgEvent;
@@ -44,6 +45,8 @@ public class SendMessageCmd implements ICommand {
         AlgorithmType algorithmType;
         File keyf;
 
+        GUI.clearOutputArea();
+
         if(participant01 == null) {
             response.append(participantName01).append(" doesn't exist");
             return response.toString();
@@ -78,8 +81,6 @@ public class SendMessageCmd implements ICommand {
         MessageTable.insertMessage(participant01.getId(), participant02.getId(), message, algorithmId, encryptedMsg, keyf.getName());
         MsgEvent msgEvent = new MsgEvent(participant01, participant02, encryptedMsg, algorithmType, keyf);
         channel.sendMsg(msgEvent);
-        response.append(participant02.getName()).append(" (").append(participant02.getId()).append(") received new message");
-
-        return response.toString();
+        return null;
     }
 }

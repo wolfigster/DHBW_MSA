@@ -4,9 +4,10 @@ import com.google.common.eventbus.EventBus;
 
 public class Channel {
 
-    private String name;
-    private Participant participant01;
-    private Participant participant02;
+    private final String name;
+    private final Participant participant01;
+    private final Participant participant02;
+    private Participant intruder;
     private EventBus eventBus;
 
     public Channel(String name, Participant participant01, Participant participant02) {
@@ -16,6 +17,7 @@ public class Channel {
         this.eventBus = new EventBus(name);
         this.eventBus.register(participant01);
         this.eventBus.register(participant02);
+        this.intruder = null;
     }
 
     public void sendMsg(MsgEvent msgEvent) {
@@ -32,5 +34,14 @@ public class Channel {
 
     public Participant getParticipant02() {
         return participant02;
+    }
+
+    public Participant getIntruder() {
+        return intruder;
+    }
+
+    public void setIntruder(Participant intruder) {
+        this.eventBus.register(intruder);
+        this.intruder = intruder;
     }
 }

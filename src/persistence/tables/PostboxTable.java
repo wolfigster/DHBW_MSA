@@ -65,4 +65,16 @@ public class PostboxTable {
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
+
+    public static void updateLastPostBoxMessage(String participantName, int whereId, String message) {
+        System.out.println("--- update message Data in postbox_" + participantName + " Table");
+
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder.append("UPDATE postbox_").append(participantName).append(" ")
+                .append("SET message = '").append(message).append("' ")
+                .append("WHERE id = ").append(whereId);
+        System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
+
+        HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
 }
