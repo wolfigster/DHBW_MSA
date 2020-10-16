@@ -56,6 +56,7 @@ public class CommandControl {
             Matcher matcher = sendMessagePattern.matcher(command);
             while(matcher.find()) currentCommand = new SendMessageCmd(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
         }
+        else if(command.matches("\\?|help|commands?|cmds?")) currentCommand = new HelpCmd();
         else {
             return currentCommand = null;
         }
@@ -65,6 +66,6 @@ public class CommandControl {
     public void executeCommand() {
         System.out.println("--- execute ---");
         String response = currentCommand.execute();
-        outputArea.setText(response);
+        if(response != null) outputArea.setText(response);
     }
 }
