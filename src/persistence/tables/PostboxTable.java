@@ -48,7 +48,7 @@ public class PostboxTable {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("INSERT INTO postbox_").append(participantName).append(" (").append("id").append(",").append("participant_from_id").append(",").append("message").append(",").append("timestamp").append(")")
                 .append(" VALUES ")
-                .append("(").append(nextID).append(",'").append(participantFromId).append("','").append(message).append("',").append(timestamp).append(")");
+                .append("(").append(nextID).append(",").append(participantFromId).append(",'").append(message).append("',").append(timestamp).append(")");
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
@@ -61,6 +61,18 @@ public class PostboxTable {
         sqlStringBuilder.append("DELETE ")
                 .append("FROM postbox_").append(participantName).append(" ")
                 .append("WHERE id = ").append(id);
+        System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
+
+        HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static void updateLastPostBoxMessage(String participantName, int whereId, String message) {
+        System.out.println("--- update message Data in postbox_" + participantName + " Table");
+
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder.append("UPDATE postbox_").append(participantName).append(" ")
+                .append("SET message = '").append(message).append("' ")
+                .append("WHERE id = ").append(whereId);
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());

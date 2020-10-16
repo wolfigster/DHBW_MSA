@@ -13,7 +13,6 @@ public class ShowParticipantCmd implements ICommand {
     public String execute() {
         System.out.println("Run command ShowParticipantCmd");
         StringBuilder response = new StringBuilder();
-        // Do something
 
         response.append("ID | Name | Type");
         for (Participant participant : ParticipantTable.getParticipants()) {

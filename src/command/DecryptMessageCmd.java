@@ -28,8 +28,10 @@ public class DecryptMessageCmd implements ICommand {
         Logger logger = new Logger(MethodType.DECRYPT, AlgorithmType.NONE);
         AlgorithmType _algorithmType;
         File _keyfile;
+
         logger.info("Run command DecryptMessageCmd");
         logger.info("Start initialization for decryption:");
+
         _algorithmType = AlgorithmType.getAlgorithm(algorithmType);
         if(_algorithmType != null) {
             logger.info("Algorithm successful recognized -> " + _algorithmType.getName());

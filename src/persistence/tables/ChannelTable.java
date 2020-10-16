@@ -1,6 +1,7 @@
 package persistence.tables;
 
 import msa.Channel;
+import msa.MSA;
 import msa.Participant;
 import persistence.HSQLDB;
 
@@ -97,6 +98,23 @@ public class ChannelTable {
         return channels;
     }
 
+    public static Channel getChannel(String name) {
+        Channel channel = null;
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM channel ")
+                    .append("WHERE name = '").append(name).append("'");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                channel = createChannel(resultSet);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return channel;
+    }
+
     public static String getChannelNameByParticipants(int participant_01, int participant_02) {
         try {
             StringBuilder sqlStringBuilder = new StringBuilder();
@@ -133,9 +151,12 @@ public class ChannelTable {
 
     private static Channel createChannel(ResultSet resultSet) {
         try {
+            if(MSA.getChannel(resultSet.getString("name")) != null) return MSA.getChannel(resultSet.getString("name"));
             Participant participant01 = ParticipantTable.getParticipantById(resultSet.getInt("participant_01"));
             Participant participant02 = ParticipantTable.getParticipantById(resultSet.getInt("participant_02"));
-            return new Channel(resultSet.getString("name"), participant01, participant02);
+            Channel channel = new Channel(resultSet.getString("name"), participant01, participant02);
+            MSA.addChannel(channel);
+            return channel;
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }

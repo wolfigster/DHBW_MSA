@@ -13,7 +13,6 @@ public class ShowChannelCmd implements ICommand {
     public String execute() {
         System.out.println("Run command ShowChannelCmd");
         StringBuilder response = new StringBuilder();
-        // Do something
 
         response.append("Channel | Participant01 and Participant02");
         for(Channel channel : ChannelTable.getChannels()) {
