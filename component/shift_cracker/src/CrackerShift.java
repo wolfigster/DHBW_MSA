@@ -11,7 +11,7 @@ public class CrackerShift {
     final private static char toChar = '~'; //~
     final private static char numOfChars = toChar - fromChar + 1;
 
-    final private static String dictionaryFilePath = "english_dictionary.txt";
+    final private static String dictionaryFilePath = "dictionary" + File.separator + "english.txt";
     private static Set<String> dictionary;
 
     private CrackerShift() {
