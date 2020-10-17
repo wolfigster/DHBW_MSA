@@ -53,9 +53,9 @@ public class Participant {
                 if(!crackedMsg.equals("unknown")) {
                     int whereId = HSQLDB.instance.getNextID("postbox_" + this.name);
                     PostboxTable.updateLastPostBoxMessage(this.name, whereId, crackedMsg.replace(",", "-"));
-                    GUI.addTextToOutputArea("intruder " + this.name + " cracked message from participant" + msgEvent.getParticipantFrom().name + " | " + crackedMsg);
+                    GUI.addTextToOutputArea("intruder " + this.name + " cracked message from participant " + msgEvent.getParticipantFrom().name + " | " + crackedMsg);
                 } else {
-                    GUI.addTextToOutputArea("intruder " + this.name + " | cracked message from participant" + msgEvent.getParticipantFrom().name + " failed");
+                    GUI.addTextToOutputArea("intruder " + this.name + " | cracked message from participant " + msgEvent.getParticipantFrom().name + " failed");
                 }
                 return;
             }
