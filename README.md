@@ -55,10 +55,10 @@ Für die **Simulation** werden folgende channel angelegt:
 
 ## show channel
 Im Ausgabebereich der GUI werden die Channel angezeigt.
-> *hkg_wuh | branch_hkg and branch_wuh*
-> *hkg_cpt | branch_hkg and branch_cpt*
-> *cpt_syd | branch_cpt and branch_syd*
-> *syd_sfo | branch_syd and branch_sfo*
+> *hkg_wuh | branch_hkg and branch_wuh*  
+> *hkg_cpt | branch_hkg and branch_cpt*  
+> *cpt_syd | branch_cpt and branch_syd*  
+> *syd_sfo | branch_syd and branch_sfo*  
 
 ## drop channel [name]
 Existiert der channel mit dem Namen, wird dieser Datensatz aus der Tabelle channel gelöscht und im Ausgabebereich der GUI die Meldung *"channel [name] deleted"* angezeigt. Existiert kein channel mit dem Namen, wird im Ausgabebereich der GUI die Fehlermeldung *"unknown channel [name]"* ausgegeben.
