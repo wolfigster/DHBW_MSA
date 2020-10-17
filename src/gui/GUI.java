@@ -27,14 +27,14 @@ public class GUI extends Application {
     private static TextArea outputArea;
 
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("MSA | Mosbach Security Agency");
+        primaryStage.setTitle("MSA | Mosbach Security Agency | by Jan Dietzel & Johannes Weis");
         HSQLDB.instance.setupConnection();
         MSA.initialize();
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(15, 12, 15, 12));
         hBox.setSpacing(10);
-        hBox.setStyle("-fx-background-color: #336699;");
+        hBox.setStyle("-fx-background-color: #e0041d;");
 
         Button executeButton = new Button("Execute");
         executeButton.setPrefSize(100, 20);
@@ -61,6 +61,7 @@ public class GUI extends Application {
         VBox vbox = new VBox(20);
         vbox.setPadding(new Insets(25, 25, 25, 25));
         vbox.getChildren().addAll(hBox, commandLineArea, outputArea);
+        vbox.setStyle("-fx-background-color: #E4E4E4;");
 
         Scene scene = new Scene(vbox, 950, 500);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (keyEvent -> keyPressed(keyEvent.getCode())));
