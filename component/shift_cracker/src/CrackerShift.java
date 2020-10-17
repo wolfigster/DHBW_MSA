@@ -1,9 +1,18 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class CrackerShift {
 
     private static CrackerShift instance = new CrackerShift();
     public Port port;
+
+    final private static char fromChar = ' '; //space character
+    final private static char toChar = '~'; //~
+    final private static char numOfChars = toChar - fromChar + 1;
+
+    final private static String dictionaryFilePath = "english_dictionary.txt";
+    private static Set<String> dictionary;
 
     private CrackerShift() {
         port = new Port();
@@ -16,115 +25,76 @@ public class CrackerShift {
     public class Port implements ICrackerShift {
         @Override
         public String crack(String cipher, File keyFile) {
-            return crackShift(cipher);
+            char[] res = ceasar(cipher.toCharArray(), 0);
+            List<Integer> possibleKeys = heuristicCracker(res);
+            for(int i : possibleKeys) {
+                return String.valueOf(ceasar(res, (char) (numOfChars - i)));
+            }
+            return "";
         }
     }
 
-    private String crackShift(String cipher) {
-
-        String source = cipher.trim().toUpperCase();
-        char[] sourceText = new char[source.length()];
-        int[] unicode = new int[source.length()];
-        int[] unicodeCopy = new int[source.length()];
-
-        for (int count = 0; count < source.length(); count++) {
-            sourceText[count] = source.charAt(count);
+    public static char[] ceasar(char [] clearText, int shiftKey) {
+        char[] cipherText = new char[clearText.length];
+        for (int i=0; i < clearText.length; i++) {
+            cipherText[i] = (char) (clearText[i] + shiftKey);
+            if (cipherText[i] > toChar) {
+                cipherText[i] -= numOfChars;
+            }
         }
-
-        String hex;
-        int dec;
-
-        for (int count = 0; count < sourceText.length; count++) {
-            hex = Integer.toHexString(sourceText[count]);
-            dec = Integer.parseInt(hex, 16);
-            unicode[count] = dec;
-            unicodeCopy[count] = dec;
-        }
-
-        StringBuilder possibleStringBuilder = new StringBuilder();
-        for (int shift = 1; shift <= 25; shift++) {
-            String possibleText = smartShift(shift, unicode, unicodeCopy);
-            if(!possibleText.equals("")) possibleStringBuilder.append(possibleText).append(", ");
-        }
-        String result = possibleStringBuilder.toString();
-
-        if(result.endsWith(", ")) result = result.substring(0, result.length() - 2);
-        return result;
-
+        return cipherText;
     }
 
-    // 01_algorithms/01_shift/02_cracker code
-    private String smartShift(int shift, int[] unicode, int[] unicodeCopy) {
-        for (int x = 0; x <= unicode.length - 1; x++) {
-            unicodeCopy[x] = unicode[x];
+    private static Set<String> getDictionary () {
+        if (dictionary != null)
+            return dictionary;
+        Scanner file = null;
+        try {
+            file = new Scanner(new File(dictionaryFilePath));
+            dictionary = new HashSet<String>();
+            // For each word in the input
+            while (file.hasNext()) {
+                // Convert the word to lower case, trim it and insert into the set
+                dictionary.add(file.next().trim().toLowerCase());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot find dictionary file");
+        } finally {
+            file.close();
+        }
+        return dictionary;
+    }
 
-            if (unicode[x] >= 65 && unicode[x] <= 90) {
-                unicodeCopy[x] += shift;
-                if (unicodeCopy[x] > 90) {
-                    unicodeCopy[x] -= 26;
-                }
+    //count number of words found in dictionary
+    public static int evaluateMetric(String input) {
+        //split String by space, punctuation
+        String[] splitWords = input.split("[\\p{Punct}\\s]+");
+        int match = 0;
+
+        for (String s: splitWords) {
+            if (getDictionary().contains(s)) {
+                match++;
             }
         }
+        return match;
+    }
 
-        String[] processed = new String[unicode.length];
-        char[] finalProcess = new char[unicode.length];
-
-        for (int count = 0; count < processed.length; count++) {
-            processed[count] = Integer.toHexString(unicodeCopy[count]);
-            int hexToInt = Integer.parseInt(processed[count], 16);
-            char intToChar = (char) hexToInt;
-            finalProcess[count] = intToChar;
+    //return the keys that seem to output most words than the rest
+    public static List<Integer> heuristicCracker(char[] cipherText) {
+        int[] matchesPerKeyArray = new int[numOfChars];
+        for (int i = 0; i < numOfChars; i++) {
+            char[] clear = ceasar(cipherText, numOfChars - i);
+            matchesPerKeyArray[i] = evaluateMetric(String.valueOf(clear));
         }
+        //find keys with most matches
+        int max = Arrays.stream(matchesPerKeyArray).max().getAsInt();
 
-        double frequency = 0;
-        double aFrequency = 0;
-        double eFrequency = 0;
-        double iFrequency = 0;
-        double oFrequency = 0;
-        double uFrequency = 0;
-
-        for (char c : finalProcess) {
-            frequency++;
-
-            switch (c) {
-                case 'A':
-                    aFrequency++;
-                    break;
-                case 'E':
-                    eFrequency++;
-                    break;
-                case 'I':
-                    iFrequency++;
-                    break;
-                case 'O':
-                    oFrequency++;
-                    break;
-                case 'U':
-                    uFrequency++;
-                    break;
-                default:
-                    break;
+        List<Integer> possibleKeys = new ArrayList<Integer>();
+        for (int i = 0; i < numOfChars; i++) {
+            if (matchesPerKeyArray[i] == max) {
+                possibleKeys.add(i);
             }
         }
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (char character : finalProcess) {
-            stringBuilder.append(character);
-        }
-
-        if (eFrequency / frequency >= 0.05 || aFrequency / frequency >= 0.05 || iFrequency / frequency >= 0.05 || oFrequency / frequency >= 0.05 || uFrequency / frequency >= 0.05) {
-            return stringBuilder.toString();
-            /*
-            System.out.println();
-            System.out.println("\t" + stringBuilder);
-            System.out.println("\t\tA : " + decimalFormat.format(aFrequency / frequency));
-            System.out.println("\t\tE : " + decimalFormat.format(eFrequency / frequency));
-            System.out.println("\t\tI : " + decimalFormat.format(iFrequency / frequency));
-            System.out.println("\t\tO : " + decimalFormat.format(oFrequency / frequency));
-            System.out.println("\t\tU : " + decimalFormat.format(uFrequency / frequency));
-             */
-        }
-        return "";
+        return possibleKeys;
     }
 }
