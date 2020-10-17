@@ -1,0 +1,6 @@
+17.10 19:42:03.137 | INFO | Run command EncryptMessageCmd
+17.10 19:42:03.137 | INFO | Start initialization for encryption:
+17.10 19:42:03.137 | INFO | Algorithm successful recognized -> Shift
+17.10 19:42:03.137 | INFO | Found keyfile: "shift_2.json"
+17.10 19:42:03.137 | INFO | Start encryption:
+17.10 19:42:03.138 | INFO | "morpheus" encrypted to "tvywol|z"

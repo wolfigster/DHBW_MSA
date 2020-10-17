@@ -1,0 +1,6 @@
+17.10 19:34:26.519 | INFO | Run command DecryptMessageCmd
+17.10 19:34:26.519 | INFO | Start initialization for decryption:
+17.10 19:34:26.519 | INFO | Algorithm successful recognized -> RSA
+17.10 19:34:26.519 | INFO | Found keyfile: "rsa_1.json"
+17.10 19:34:26.520 | INFO | Start decryption:
+17.10 19:34:26.521 | INFO | "A2Tl5KRr18U8L2E=" decrypted to "morpheus"

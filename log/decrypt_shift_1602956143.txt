@@ -1,0 +1,6 @@
+17.10 19:35:43.868 | INFO | Run command DecryptMessageCmd
+17.10 19:35:43.868 | INFO | Start initialization for decryption:
+17.10 19:35:43.868 | INFO | Algorithm successful recognized -> Shift
+17.10 19:35:43.868 | INFO | Found keyfile: "shift_1.json"
+17.10 19:35:43.868 | INFO | Start decryption:
+17.10 19:35:43.868 | INFO | "pruskhxv" decrypted to "morpheus"

@@ -1,0 +1,6 @@
+17.10 19:34:16.273 | INFO | Run command EncryptMessageCmd
+17.10 19:34:16.273 | INFO | Start initialization for encryption:
+17.10 19:34:16.273 | INFO | Algorithm successful recognized -> RSA
+17.10 19:34:16.274 | INFO | Found keyfile: "rsa_1.json"
+17.10 19:34:16.274 | INFO | Start encryption:
+17.10 19:34:16.288 | INFO | "morpheus" encrypted to "A2Tl5KRr18U8L2E="
