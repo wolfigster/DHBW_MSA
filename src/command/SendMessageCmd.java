@@ -2,6 +2,7 @@ package command;
 
 import configuration.Configuration;
 import cryptography.Cryptography;
+import cryptography.KeyChecker;
 import gui.GUI;
 import logger.AlgorithmType;
 import msa.Channel;
@@ -13,6 +14,9 @@ import persistence.tables.MessageTable;
 import persistence.tables.ParticipantTable;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class SendMessageCmd implements ICommand {
 
@@ -73,6 +77,11 @@ public class SendMessageCmd implements ICommand {
         keyf = new File(Configuration.instance.keyfileDirectory + keyfile);
         if(!keyf.exists()) {
             response.append("Couldn't find keyfile: \"").append(keyfile).append("\"");
+            return response.toString();
+        }
+
+        if(!KeyChecker.checkKeyFile(keyf, algorithmType)) {
+            response.append("Please check your keyfile \"").append(keyfile).append("\"");
             return response.toString();
         }
 

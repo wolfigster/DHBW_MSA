@@ -2,6 +2,7 @@ package command;
 
 import configuration.Configuration;
 import cryptography.Cryptography;
+import cryptography.KeyChecker;
 import logger.AlgorithmType;
 import logger.Logger;
 import logger.MethodType;
@@ -52,7 +53,10 @@ public class DecryptMessageCmd implements ICommand {
             logger.setLogFileType(_algorithmType, true);
             System.out.println("Decryption failed");
             return "Couldn't find keyfile: \"" + keyfile + "\"";
+        }
 
+        if(!KeyChecker.checkKeyFile(_keyfile, _algorithmType)) {
+            return "Please check your keyfile \"" + keyfile + "\"";
         }
 
         logger.info("Start decryption:");
