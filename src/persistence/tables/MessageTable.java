@@ -109,14 +109,3 @@ public class MessageTable {
         return postbox;
     }
 }
-/*
-
-                .append("id TINYINT NOT NULL").append(",")
-                .append("participant_from_id TINYINT NOT NULL").append(",")
-                .append("participant_to_id TINYINT NOT NULL").append(",")
-                .append("plain_message VARCHAR(50) NOT NULL").append(",")
-                .append("algorithm_id TINYINT NOT NULL").append(",")
-                .append("encrypted_message VARCHAR(50) NOT NULL").append(",")
-                .append("keyfile VARCHAR(20) NOT NULL").append(",")
-                .append("timestamp INTEGER").append(",")
- */

@@ -1,7 +1,44 @@
 # DHBW_MSA
 
-**ERM**
+# Inhaltsverzeichnis
+- Datenbank-Struktur
+- Annahmen
+- Shift-Cracker Ergänzung
+- Commands
+    - show algorithm
+    - encrypt message "[message]" using [algorithm] and keyfile [filename]
+    - decrypt message "[message]" using [algorithm] and keyfile [filename]
+    - crack encrypted message "[message]" using [algorithm]
+    - register participant [name] with type [normal|intruder]
+    - create channel [name] from [participant01] to [participant02]
+    - show channel
+    - drop channel [name]
+    - intrude channel [name] by [participant]
+    - send message "[message]" from [participant01] to [participant02] using [algorithm] and keyfile [name]
+- Hinzugefügte Commands
+    - show participant
+    - show postbox [participant]
+    - show message
+    - help
+- Beispielausgaben (Screenshots)
+
+
+# Datenbank-Struktur
 ![ERM](img/database.png)
+
+
+# Annahme
+Der RSA Cracker benötigt für das cracken die **öffentliche Zahl n** und den **öffentlichen Schlüssel e**. Beim Befehl *crack encrypted message* sucht das Programm in den Logs nach der verschlüsselten Nachricht und nimmt aus diesem Log die geloggte Keyfile heraus und übergibt diese dem RSA-Cracker.  
+Beim Befehl *intrude channel* wird das MsgEvent abgefangen und die Keyfile von diesem an den Cracker übergeben.
+
+
+# Shift-Cracker-Ergänzung
+Der Shift-Cracker gibt lediglich alle möglichen Zeichenkonstellationen der verschlüsselten Nachricht aus und gibt nicht nur ein Wort mit der größten Wahrscheinlichkeit aus
+Somit kam das Problem auf, dass beim Cracken einer Nachricht, welche mit dem Shift-Algorithmus verschlüsselt wurde, die gecrackte Nachricht zu lange (größer 50 Zeichen) für die Datenbank war. Um dieses Problem zu beheben wurde der folgende Shift-Cracker in das Projekt eingepflegt:  
+https://stackoverflow.com/a/35241364/11588141  
+Mit Hilfe einer Datei, welche englische Wörter beinhaltet sucht dieser aus den gecrackten Varianten die wahrscheinlichste aus und gibt diese dem Programm zurück.  
+Verwendete Dictionary-Datei:  
+http://quizedia.com/dictionaries/ENG_DICTIONARY.TXT
 
 
 # Commands
@@ -84,3 +121,65 @@ Existiert zwischen participant01 und participant02 ein channel wird die Nachrich
 Das Versenden der Nachricht wird in der Tabelle messages protokolliert.
 
 Der Empfänger participant02 lädt dynamisch die zu dem Algorithmus korrespondierende Komponente [algorithm].jar und entschlüsselt die Nachricht. Nach Entschlüsselung wird in der Tabelle postbox_[participant02_name] ein Datensatz erstellt und im Ausgabebereich der GUI die Meldung *"[participant02_name] received new message"* angezeigt.
+
+
+# Hinzugefügte Commands
+## show participant
+Im Ausgabebereich der GUI werden alle Participants angezeigt.
+
+| ID    | Name       | Type      |
+|-------|------------|-----------|
+| 1     | branch_hkg | normal    |
+| 2     | branch_cpt | normal    |
+| 3     | branch_sfo | normal    |
+| 4     | branch_syd | normal    |
+| 5     | branch_wuh | normal    |
+| 6     | msa        | intruder  |
+
+## show postbox [participant]
+Im Ausgabebereich der GUI wird die Postbox von [participant] angezeigt.
+
+| ID    | Participant from | Timestamp  | Message  |
+|-------|------------------|------------|----------|
+| 1     | 5                | 1603032492 | morpheus |
+
+## show message
+Im Ausgabebereich der GUI werden alle Messages der Message-Tabelle angezeigt.
+
+| ID    | Participant from | Participant to | Timestamp  | AlgorithmID | Keyfile      | Plain message | Encrypted message |
+|-------|------------------|----------------|------------|-------------|--------------|---------------|-------------------|
+| 1     | 5                | 1              | 1603032492 | 2           | shift_1.json | morpheus      | pruskhxv          |
+
+## help / ? / command
+Im Ausgabebereich der GUI werden alle möglichen Befehle angezeigt
+
+
+# Beispielausgaben
+## show algorithm
+![showAlgorithmCommand](img/showAlgorithmCommand.png)
+## encrypt message "[message]" using [algorithm] and keyfile [filename]
+![encryptCommand](img/encryptCommand.png)
+## decrypt message "[message]" using [algorithm] and keyfile [filename]
+![decryptCommand](img/decryptCommand.png)
+## crack encrypted message "[message]" using [algorithm]
+![crackCommand](img/crackCommand.png)
+## register participant [name] with type [normal|intruder]
+![registerParticipantCommand](img/registerParticipantCommand.png)
+## create channel [name] from [participant01] to [participant02]
+![createChannelCommand](img/createChannelCommand.png)
+## show channel
+![showChannelCommand](img/showChannelCommand.png)
+## drop channel [name]
+![dropChannelCommand](img/dropChannelCommand.png)
+## intrude channel [name] by [participant]
+![intrudeChannelCommand](img/intrudeChannelCommand.png)
+## send message "[message]" from [participant01] to [participant02] using [algorithm] and keyfile [name]
+![sendMessageCommand](img/sendMessageCommand.png)
+## show participant
+![showParticipantCommand](img/showParticipantCommand.png)
+## show postbox [participant]
+![showParticipantCommand](img/showPostboxCommand.png)
+## show message
+![showParticipantCommand](img/showMessageCommand.png)
+## help / ? / command
+![helpCommand](img/helpCommand.png)
