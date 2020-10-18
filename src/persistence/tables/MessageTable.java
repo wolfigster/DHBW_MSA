@@ -2,6 +2,10 @@ package persistence.tables;
 
 import persistence.HSQLDB;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class MessageTable {
 
     public static void createTable() {
@@ -88,4 +92,31 @@ public class MessageTable {
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
     }
+
+    public static ArrayList<String> getMessages() {
+        ArrayList<String> postbox = new ArrayList<>();
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM messages");
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                postbox.add(resultSet.getInt("id") + " | " + resultSet.getInt("participant_from_id") + " | " + resultSet.getInt("participant_to_id") + " | " + resultSet.getInt("timestamp") + " | " + resultSet.getString("algorithm_id") + " | " + resultSet.getString("keyfile") + " | " + resultSet.getString("plain_message") + " | " + resultSet.getString("encrypted_message"));
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return postbox;
+    }
 }
+/*
+
+                .append("id TINYINT NOT NULL").append(",")
+                .append("participant_from_id TINYINT NOT NULL").append(",")
+                .append("participant_to_id TINYINT NOT NULL").append(",")
+                .append("plain_message VARCHAR(50) NOT NULL").append(",")
+                .append("algorithm_id TINYINT NOT NULL").append(",")
+                .append("encrypted_message VARCHAR(50) NOT NULL").append(",")
+                .append("keyfile VARCHAR(20) NOT NULL").append(",")
+                .append("timestamp INTEGER").append(",")
+ */

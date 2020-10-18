@@ -57,6 +57,8 @@ public class CommandControl {
             while(matcher.find()) currentCommand = new SendMessageCmd(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
         }
         else if(command.matches("\\?|help|commands?|cmds?")) currentCommand = new HelpCmd();
+        else if(command.matches("show postbox .*")) currentCommand = new ShowPostboxCmd(command.replace("show postbox ", ""));
+        else if(command.matches("show messages?")) currentCommand = new ShowMessagesCmd();
         else {
             return currentCommand = null;
         }

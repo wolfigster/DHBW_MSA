@@ -11,7 +11,8 @@ public class HelpCmd implements ICommand {
         System.out.println("Run command HelpCmd");
         StringBuilder response = new StringBuilder();
 
-        response.append("The following commands are possible to execute:");
+        response.append("All commands are case sensitive!");
+        response.append("\n\nThe following commands are possible to execute:");
         response.append("\n> ").append("show algorithm");
         response.append("\n> ").append("show participant");
         response.append("\n> ").append("show channel");

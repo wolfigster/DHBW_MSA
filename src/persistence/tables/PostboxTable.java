@@ -1,6 +1,11 @@
 package persistence.tables;
 
+import msa.Participant;
 import persistence.HSQLDB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PostboxTable {
 
@@ -76,5 +81,21 @@ public class PostboxTable {
         System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
 
         HSQLDB.instance.update(sqlStringBuilder.toString());
+    }
+
+    public static ArrayList<String> getPostBox(String participantName) {
+        ArrayList<String> postbox = new ArrayList<>();
+        try {
+            StringBuilder sqlStringBuilder = new StringBuilder();
+            sqlStringBuilder.append("SELECT * ")
+                    .append("FROM postbox_").append(participantName);
+            ResultSet resultSet = HSQLDB.instance.query(sqlStringBuilder.toString());
+            while (resultSet.next() && resultSet != null) {
+                postbox.add(resultSet.getInt("id") + " | " + resultSet.getInt("participant_from_id") + " | " + resultSet.getInt("timestamp") + " | " + resultSet.getString("message"));
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return postbox;
     }
 }
