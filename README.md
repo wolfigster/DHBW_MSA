@@ -1,9 +1,10 @@
 # DHBW_MSA
 
 # Inhaltsverzeichnis
-- Datenbank-Struktur
+- Ausführung
 - Annahmen
 - Shift-Cracker Ergänzung
+- Datenbank-Struktur
 - Commands
     - show algorithm
     - encrypt message "[message]" using [algorithm] and keyfile [filename]
@@ -23,8 +24,15 @@
 - Beispielausgaben (Screenshots)
 
 
-# Datenbank-Struktur
-![ERM](img/database.png)
+
+
+# Ausführung
+- **Application.main()**  
+führt man die main-Methode in der Klasse Application aus, wird die Methode simulateHSQLDB aufgerufen, hierbei werden die Tabellen der HSQLDB gelöscht und mit den Simulationsdaten bestückt
+- **GUI.start()**  
+Hierbei wird die GUI gestartet mit Ein- und Ausgabefenster  
+**!** sollte diese nicht starten fügen sie als VM options in der Run-Configuration folgendes hinzu:
+    > --module-path lib --add-modules=javafx.controls
 
 
 # Annahme
@@ -39,6 +47,10 @@ https://stackoverflow.com/a/35241364/11588141
 Mit Hilfe einer Datei, welche englische Wörter beinhaltet sucht dieser aus den gecrackten Varianten die wahrscheinlichste aus und gibt diese dem Programm zurück.  
 Verwendete Dictionary-Datei:  
 http://quizedia.com/dictionaries/ENG_DICTIONARY.TXT
+
+
+# Datenbank-Struktur
+![ERM](img/database.png)
 
 
 # Commands
