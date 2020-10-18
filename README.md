@@ -24,8 +24,6 @@
 - Beispielausgaben (Screenshots)
 
 
-
-
 # Ausführung
 - **Application.main()**  
 führt man die main-Methode in der Klasse Application aus, wird die Methode simulateHSQLDB aufgerufen, hierbei werden die Tabellen der HSQLDB gelöscht und mit den Simulationsdaten bestückt
