@@ -1,0 +1,6 @@
+18.10 17:53:42.543 | INFO | Run command EncryptMessageCmd
+18.10 17:53:42.544 | INFO | Start initialization for encryption:
+18.10 17:53:42.545 | INFO | Algorithm successful recognized -> RSA
+18.10 17:53:42.545 | INFO | Found keyfile: "rsa_3.json"
+18.10 17:53:42.550 | INFO | Start encryption:
+18.10 17:53:42.563 | INFO | "test" encrypted to "ApziPjo="

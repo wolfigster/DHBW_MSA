@@ -4,6 +4,7 @@
 - Ausführung
 - Annahmen
 - Shift-Cracker Ergänzung
+- RSA-Crack Beispiel
 - Datenbank-Struktur
 - Commands
     - show algorithm
@@ -45,6 +46,13 @@ https://stackoverflow.com/a/35241364/11588141
 Mit Hilfe einer Datei, welche englische Wörter beinhaltet sucht dieser aus den gecrackten Varianten die wahrscheinlichste aus und gibt diese dem Programm zurück.  
 Verwendete Dictionary-Datei:  
 http://quizedia.com/dictionaries/ENG_DICTIONARY.TXT
+
+
+# RSA-Crack Beispiel
+In der keyfile rsa_3.json befindet sich ein Schlüssel, welcher sich cracken lässt, dieser ist jedoch zu kurz um "morpheus" verschlüsseln zu können.  
+Beispiel hierfür ist "ApziPjo="  
+*crack encrypted message "ApziPjo=" using rsa*  
+Der entschlüsselte Text sollte "test" heißen
 
 
 # Datenbank-Struktur

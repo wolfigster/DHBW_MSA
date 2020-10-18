@@ -1,0 +1,7 @@
+18.10 17:53:57.606 | INFO | Run command CrackMessageCmd
+18.10 17:53:57.606 | INFO | Start initialization for cracking:
+18.10 17:53:57.607 | INFO | Algorithm successful recognized -> RSA
+18.10 17:53:57.620 | INFO | Try to crack with key: "N:\Development\IdeaProjects\DHBW_MSA\keyfile\rsa_3.json"
+18.10 17:53:57.620 | INFO | Start cracking:
+18.10 17:53:57.655 | INFO | Encrypted message: "ApziPjo="
+18.10 17:53:57.655 | INFO | Possible cracked messages: "test"
